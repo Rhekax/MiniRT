@@ -6,23 +6,13 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/22 22:47:22 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	validate_normal_vector(t_vec3 vec, char *error_msg)
-{
-	double	magnitude;
-
-	magnitude = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
-	if (magnitude < 0.99 || magnitude > 1.01)
-		error_exit(error_msg);
-	if (vec.x < -1.0 || vec.x > 1.0 || vec.y < -1.0 || vec.y > 1.0
-		|| vec.z < -1.0 || vec.z > 1.0)
-		error_exit(error_msg);
-}
+void	validate_normal_vector(t_vec3 vec, char *error_msg);
 
 void	parse_ambient(t_scene *scene, char **parts)
 {
