@@ -22,7 +22,7 @@ LIBFT               =   libft/libft.a
 LIBFTDIR            =   libft
 MLX                 =   minilibx-linux/libmlx.a
 MLXDIR              =   minilibx-linux
-INCLUDES            =   -I. -I$(MLXDIR) -I$(LIBFTDIR) -Iget_next_line
+INCLUDES            =   -I. -I$(MLXDIR) -I$(LIBFTDIR) -Isrc
 LIBS                =   -L$(MLXDIR) -lmlx -L$(LIBFTDIR) -lft -lXext -lX11 -lm
 
 SRCS                =   src/main.c \
@@ -48,8 +48,8 @@ SRCS                =   src/main.c \
                         src/shading/shadow.c \
                         src/mlx/mlx_init.c \
                         src/mlx/mlx_hooks.c \
-                        get_next_line/get_next_line.c \
-                        get_next_line/get_next_line_utils.c
+                        src/get_next_line.c \
+                        src/get_next_line_utils.c
 
 OBJS                =   $(SRCS:.c=.o)
 
