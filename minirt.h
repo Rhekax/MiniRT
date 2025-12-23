@@ -173,6 +173,7 @@ t_vec3	parse_vec3(char *str);
 t_color	parse_color(char *str);
 int		is_empty_file(int fd);
 void	free_parts(char **parts);
+void	process_line(t_scene *scene, char *line);
 int		hit_sphere(t_ray ray, t_sphere *sp, double t_min, t_hit *hit);
 int		hit_plane(t_ray ray, t_plane *pl, double t_min, t_hit *hit);
 int		hit_cylinder(t_ray ray, t_cylinder *cy, double t_min, t_hit *hit);

@@ -12,14 +12,8 @@
 
 #include "minirt.h"
 
-static int	check_valid_double(double val)
-{
-	if (val != val)
-		return (0);
-	if (val > 1e308 || val < -1e308)
-		return (0);
-	return (1);
-}
+void	parse_vec3_values(char **parts, t_vec3 *v);
+void	parse_color_values(char **parts, t_color *c);
 
 t_vec3	parse_vec3(char *str)
 {
@@ -39,15 +33,7 @@ t_vec3	parse_vec3(char *str)
 		free_parts(parts);
 		error_exit("Invalid vector format");
 	}
-	v.x = ft_atof(parts[0]);
-	v.y = ft_atof(parts[1]);
-	v.z = ft_atof(parts[2]);
-	if (!check_valid_double(v.x) || !check_valid_double(v.y)
-		|| !check_valid_double(v.z))
-	{
-		free_parts(parts);
-		error_exit("Invalid vector values");
-	}
+	parse_vec3_values(parts, &v);
 	free_parts(parts);
 	return (v);
 }
@@ -56,7 +42,6 @@ t_color	parse_color(char *str)
 {
 	char	**parts;
 	t_color	c;
-	int		rgb[3];
 
 	if (!str || !*str)
 		error_exit("Invalid color format");
@@ -71,18 +56,7 @@ t_color	parse_color(char *str)
 		free_parts(parts);
 		error_exit("Invalid color format");
 	}
-	rgb[0] = (int)ft_atof(parts[0]);
-	rgb[1] = (int)ft_atof(parts[1]);
-	rgb[2] = (int)ft_atof(parts[2]);
-	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255
-		|| rgb[2] < 0 || rgb[2] > 255)
-	{
-		free_parts(parts);
-		error_exit("Color values must be in range [0-255]");
-	}
-	c.r = rgb[0] / 255.0;
-	c.g = rgb[1] / 255.0;
-	c.b = rgb[2] / 255.0;
+	parse_color_values(parts, &c);
 	free_parts(parts);
 	return (c);
 }

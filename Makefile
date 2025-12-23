@@ -6,7 +6,7 @@
 #    By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/21 00:00:00 by kaan              #+#    #+#              #
-#    Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr        #
+#    Updated: 2025/12/24 00:44:29 by yenyilma         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,14 @@ SRCS                =   src/main.c \
                         src/math/color_utils.c \
                         src/math/ray.c \
                         src/parser/parse_common.c \
+                        src/parser/parse_common2.c \
                         src/parser/parse_elements.c \
                         src/parser/parse_objects.c \
+                        src/parser/parse_objects2.c \
                         src/parser/parse_scene.c \
+                        src/parser/parse_scene2.c \
                         src/parser/parse_utils.c \
+                        src/parser/parse_utils2.c \
                         src/render/camera.c \
                         src/render/trace.c \
                         src/render/render.c \
@@ -98,7 +102,7 @@ $(MLXDIR):
 	@git clone https://github.com/42Paris/minilibx-linux.git $(MLXDIR)
 	@echo "$(COLOR_RESET)"
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 	@echo "$(COLOR_BOLD_GREEN)✔ Compilation complete!$(COLOR_RESET)"
 

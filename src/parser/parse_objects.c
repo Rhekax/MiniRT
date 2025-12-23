@@ -12,8 +12,9 @@
 
 #include "minirt.h"
 
-void	validate_normal_vector(t_vec3 vec, char *error_msg);
-void	add_object(t_scene *scene, t_object *new_obj);
+void		validate_normal_vector(t_vec3 vec, char *error_msg);
+void		add_object(t_scene *scene, t_object *new_obj);
+t_cylinder	*create_cylinder(char **parts);
 
 void	parse_sphere(t_scene *scene, char **parts)
 {
@@ -44,14 +45,27 @@ void	parse_sphere(t_scene *scene, char **parts)
 	scene->object_count++;
 }
 
+static void	create_plane_obj(t_scene *scene, t_plane *plane)
+{
+	t_object	*obj;
+
+	obj = malloc(sizeof(t_object));
+	if (!obj)
+		error_exit("Memory allocation failed");
+	obj->type = OBJ_PLANE;
+	obj->data = plane;
+	obj->next = NULL;
+	add_object(scene, obj);
+	scene->object_count++;
+}
+
 void	parse_plane(t_scene *scene, char **parts)
 {
 	t_plane		*plane;
-	t_object	*obj;
 	t_vec3		normal;
 
 	if (!parts[1] || !parts[2] || !parts[3])
-		error_exit("Plane: missing parameters (pl x,y,z nx,ny,nz R,G,B)");
+		error_exit("Plane: missing params (pl x,y,z nx,ny,nz R,G,B)");
 	if (!*parts[1] || !*parts[2] || !*parts[3])
 		error_exit("Plane: empty parameters");
 	if (parts[4])
@@ -64,34 +78,17 @@ void	parse_plane(t_scene *scene, char **parts)
 	validate_normal_vector(normal, "Plane normal must be normalized");
 	plane->normal = vec3_normalize(normal);
 	plane->color = parse_color(parts[3]);
-	obj = malloc(sizeof(t_object));
-	if (!obj)
-		error_exit("Memory allocation failed");
-	obj->type = OBJ_PLANE;
-	obj->data = plane;
-	obj->next = NULL;
-	add_object(scene, obj);
-	scene->object_count++;
+	create_plane_obj(scene, plane);
 }
 
-static t_cylinder	*create_cylinder(char **parts)
+static void	check_cylinder_params(char **parts)
 {
-	t_cylinder	*cyl;
-	t_vec3		axis;
-
-	cyl = malloc(sizeof(t_cylinder));
-	if (!cyl)
-		error_exit("Memory allocation failed");
-	cyl->center = parse_vec3(parts[1]);
-	axis = parse_vec3(parts[2]);
-	validate_normal_vector(axis, "Cylinder axis must be normalized");
-	cyl->axis = vec3_normalize(axis);
-	cyl->diameter = ft_atof(parts[3]);
-	cyl->height = ft_atof(parts[4]);
-	if (cyl->diameter <= 0.0 || cyl->height <= 0.0)
-		error_exit("Cylinder diameter and height must be positive");
-	cyl->color = parse_color(parts[5]);
-	return (cyl);
+	if (!parts[1] || !parts[2] || !parts[3] || !parts[4] || !parts[5])
+		error_exit("Cylinder: missing params (cy x,y,z ax,ay,az d h R,G,B)");
+	if (!*parts[1] || !*parts[2] || !*parts[3] || !*parts[4] || !*parts[5])
+		error_exit("Cylinder: empty parameters");
+	if (parts[6])
+		error_exit("Cylinder: too many parameters");
 }
 
 void	parse_cylinder(t_scene *scene, char **parts)
@@ -99,12 +96,7 @@ void	parse_cylinder(t_scene *scene, char **parts)
 	t_cylinder	*cyl;
 	t_object	*obj;
 
-	if (!parts[1] || !parts[2] || !parts[3] || !parts[4] || !parts[5])
-		error_exit("Cylinder: missing parameters (cy x,y,z ax,ay,az d h R,G,B)");
-	if (!*parts[1] || !*parts[2] || !*parts[3] || !*parts[4] || !*parts[5])
-		error_exit("Cylinder: empty parameters");
-	if (parts[6])
-		error_exit("Cylinder: too many parameters");
+	check_cylinder_params(parts);
 	cyl = create_cylinder(parts);
 	obj = malloc(sizeof(t_object));
 	if (!obj)

@@ -19,8 +19,9 @@ void	parse_sphere(t_scene *scene, char **parts);
 void	parse_plane(t_scene *scene, char **parts);
 void	parse_cylinder(t_scene *scene, char **parts);
 void	free_parts(char **parts);
-void	init_scene(t_scene *scene);
 int		check_extension(char *filename);
+int		is_empty_file(int fd);
+t_scene	*parse_scene_file(char *filename);
 
 static void	parse_line_element(t_scene *scene, char **parts)
 {
@@ -40,7 +41,7 @@ static void	parse_line_element(t_scene *scene, char **parts)
 		error_exit("Invalid identifier (expected: A, C, L, sp, pl, cy)");
 }
 
-static void	process_line(t_scene *scene, char *line)
+void	process_line(t_scene *scene, char *line)
 {
 	char	**parts;
 	int		len;
@@ -65,39 +66,5 @@ static void	process_line(t_scene *scene, char *line)
 
 t_scene	*parse_scene(char *filename)
 {
-	t_scene	*scene;
-	char	*line;
-	int		fd;
-
-	if (!check_extension(filename))
-		error_exit("File must have .rt extension");
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		error_exit("Cannot open file");
-	if (is_empty_file(fd))
-	{
-		close(fd);
-		error_exit("Empty scene");
-	}
-	close(fd);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		error_exit("Cannot open file");
-	scene = malloc(sizeof(t_scene));
-	if (!scene)
-		error_exit("Memory allocation failed");
-	init_scene(scene);
-	line = get_next_line(fd);
-	while (line)
-	{
-		process_line(scene, line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	if (!scene->has_ambient || !scene->has_camera || !scene->has_light)
-		error_exit("Missing required elements (A, C, L)");
-	if (scene->object_count == 0)
-		error_exit("Scene must contain at least one object (sp, pl, cy)");
-	return (scene);
+	return (parse_scene_file(filename));
 }
