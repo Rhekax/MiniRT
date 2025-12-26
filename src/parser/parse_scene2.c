@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 00:00:00 by yenyilma          #+#    #+#             */
-/*   Updated: 2024/12/24 00:00:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/27 00:18:12 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ static void	read_scene_file(t_scene *scene, int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
+		set_current_line(line);
 		process_line(scene, line);
+		set_current_line(NULL);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -76,8 +78,10 @@ t_scene	*parse_scene_file(char *filename)
 	if (fd < 0)
 		error_exit("Cannot open file");
 	scene = allocate_scene();
+	set_scene_cleanup(scene);
 	read_scene_file(scene, fd);
 	close(fd);
 	validate_scene(scene);
+	set_scene_cleanup(NULL);
 	return (scene);
 }

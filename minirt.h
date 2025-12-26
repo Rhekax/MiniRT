@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/11/30 01:29:34 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/27 00:18:12 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ t_color	color_clamp(t_color c);
 t_ray	ray_new(t_vec3 origin, t_vec3 dir);
 t_vec3	ray_at(t_ray r, double t);
 void	error_exit(char *msg);
+void	set_scene_cleanup(t_scene *scene);
+void	set_current_parts(char **parts);
+void	set_current_line(char *line);
 void	free_scene(t_scene *scene);
 t_scene	*parse_scene(char *filename);
 void	setup_camera(t_camera *cam);

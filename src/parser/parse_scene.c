@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 21:33:42 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/27 00:18:12 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void	process_line(t_scene *scene, char *line)
 		free_parts(parts);
 		return ;
 	}
+	set_current_parts(parts);
 	parse_line_element(scene, parts);
+	set_current_parts(NULL);
 	free_parts(parts);
 }
 

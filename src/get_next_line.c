@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:45:55 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/01/26 11:30:00 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/27 00:18:12 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,15 @@ char	*get_next_line(int fd)
 	static char	*garbage;	
 	char		*line;
 
+	if (fd == -2)
+	{
+		if (garbage)
+		{
+			free(garbage);
+			garbage = NULL;
+		}
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	garbage = ft_read_file(garbage, fd);
@@ -112,4 +121,9 @@ char	*get_next_line(int fd)
 		garbage = NULL;
 	}
 	return (line);
+}
+
+void	cleanup_gnl(void)
+{
+	get_next_line(-2);
 }
