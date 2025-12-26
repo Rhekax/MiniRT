@@ -6,7 +6,7 @@
 /*   By: yenyilma <yyenerkaan1@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 00:19:09 by yenyilma          #+#    #+#             */
-/*   Updated: 2025/12/22 22:47:22 by yenyilma         ###   ########.fr       */
+/*   Updated: 2025/12/27 00:49:25 by yenyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	parse_camera(t_scene *scene, char **parts)
 	validate_normal_vector(dir, "Camera direction must be normalized");
 	scene->camera.dir = vec3_normalize(dir);
 	scene->camera.fov = ft_atof(parts[3]);
-	if (scene->camera.fov < 0.0 || scene->camera.fov > 180.0)
-		error_exit("FOV must be [0, 180]");
+	if (scene->camera.fov <= 0.0 || scene->camera.fov > 180.0)
+		error_exit("FOV must be (0, 180]");
 	scene->has_camera = 1;
 }
 
