@@ -12,27 +12,11 @@
 
 #include "minirt.h"
 
-static t_scene	*g_scene_cleanup = NULL;
-static char		**g_parts_cleanup = NULL;
-static char		*g_line_cleanup = NULL;
-
 void	cleanup_gnl(void);
 void	free_parts(char **parts);
-
-void	set_scene_cleanup(t_scene *scene)
-{
-	g_scene_cleanup = scene;
-}
-
-void	set_current_parts(char **parts)
-{
-	g_parts_cleanup = parts;
-}
-
-void	set_current_line(char *line)
-{
-	g_line_cleanup = line;
-}
+t_scene	**get_scene_cleanup_ptr(void);
+char	***get_parts_cleanup_ptr(void);
+char	**get_line_cleanup_ptr(void);
 
 void	error_exit(char *msg)
 {
@@ -44,21 +28,21 @@ void	error_exit(char *msg)
 		write(2, "\n", 1);
 	}
 	cleanup_gnl();
-	if (g_line_cleanup)
+	if (*get_line_cleanup_ptr())
 	{
-		free(g_line_cleanup);
-		g_line_cleanup = NULL;
+		free(*get_line_cleanup_ptr());
+		*get_line_cleanup_ptr() = NULL;
 	}
-	if (g_parts_cleanup)
+	if (*get_parts_cleanup_ptr())
 	{
-		free_parts(g_parts_cleanup);
-		g_parts_cleanup = NULL;
+		free_parts(*get_parts_cleanup_ptr());
+		*get_parts_cleanup_ptr() = NULL;
 	}
-	if (g_scene_cleanup)
+	if (*get_scene_cleanup_ptr())
 	{
-		free_scene(g_scene_cleanup);
-		free(g_scene_cleanup);
-		g_scene_cleanup = NULL;
+		free_scene(*get_scene_cleanup_ptr());
+		free(*get_scene_cleanup_ptr());
+		*get_scene_cleanup_ptr() = NULL;
 	}
 	exit(1);
 }

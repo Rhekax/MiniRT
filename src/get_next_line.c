@@ -92,7 +92,7 @@ static char	*ft_get_line(char *garbage)
 
 char	*get_next_line(int fd)
 {
-	static char	*garbage;	
+	static char	*garbage;
 	char		*line;
 
 	if (fd == -2)
@@ -109,17 +109,13 @@ char	*get_next_line(int fd)
 	garbage = ft_read_file(garbage, fd);
 	if (!garbage || !*garbage)
 	{
-		free(garbage);
+		if (garbage)
+			free(garbage);
 		garbage = NULL;
 		return (NULL);
 	}
 	line = ft_get_line(garbage);
 	garbage = remove_line(garbage);
-	if (!garbage || !*garbage)
-	{
-		free(garbage);
-		garbage = NULL;
-	}
 	return (line);
 }
 

@@ -27,6 +27,8 @@ LIBS                =   -L$(MLXDIR) -lmlx -L$(LIBFTDIR) -lft -lXext -lX11 -lm
 
 SRCS                =   src/main.c \
                         src/utils.c \
+                        src/utils2.c \
+                        src/utils3.c \
                         src/math/vec3_basic.c \
                         src/math/vec3_ops.c \
                         src/math/color.c \
@@ -41,6 +43,8 @@ SRCS                =   src/main.c \
                         src/parser/parse_scene2.c \
                         src/parser/parse_utils.c \
                         src/parser/parse_utils2.c \
+                        src/parser/parse_utils3.c \
+                        src/parser/parse_utils4.c \
                         src/render/camera.c \
                         src/render/trace.c \
                         src/render/render.c \
